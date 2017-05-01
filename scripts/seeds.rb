@@ -1,15 +1,5 @@
-# frozen_string_literal: true
-# This file should contain all the record creation needed to seed the database
-# with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the
-# db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
 Repo.destroy_all
-
+Tag.destroy_all
 Repo.create! [
 {name: "api-token-auth", github_user: "prankmode", full_url: "https://github.com/prankmode/api-token-auth"   },
 {name: "code-retreat", github_user: "prankmode", full_url: "https://github.com/prankmode/code-retreat"   },
@@ -40,5 +30,5 @@ Repo.create! [
 {name: "js", github_user: "prankmode", full_url: "https://github.com/prankmode/js"   },
 {name: "js-array-iteration-methods", github_user: "prankmode", full_url: "https://github.com/prankmode/js-array-iteration-methods"   },
 {name: "js-array-iteration-methods-diagnostic", github_user: "prankmode", full_url: "https://github.com/prankmode/js-array-iteration-methods-diagnostic"   },
-{name: "js-async-study", github_user: "prankmode", full_url: "https://github.com/prankmode/js-async-study"   }
+{name: "js-async-study", github_user: "prankmode", full_url: "https://github.com/prankmode/js-async-study"   },
 ]
