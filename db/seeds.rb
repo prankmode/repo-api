@@ -1,15 +1,4 @@
-# frozen_string_literal: true
-# This file should contain all the record creation needed to seed the database
-# with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the
-# db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
 Repo.destroy_all
-
 Repo.create! [
 {name: "api-token-auth", github_user: "prankmode", full_url: "https://github.com/prankmode/api-token-auth"   },
 {name: "code-retreat", github_user: "prankmode", full_url: "https://github.com/prankmode/code-retreat"   },
@@ -40,5 +29,45 @@ Repo.create! [
 {name: "js", github_user: "prankmode", full_url: "https://github.com/prankmode/js"   },
 {name: "js-array-iteration-methods", github_user: "prankmode", full_url: "https://github.com/prankmode/js-array-iteration-methods"   },
 {name: "js-array-iteration-methods-diagnostic", github_user: "prankmode", full_url: "https://github.com/prankmode/js-array-iteration-methods-diagnostic"   },
-{name: "js-async-study", github_user: "prankmode", full_url: "https://github.com/prankmode/js-async-study"   }
+{name: "js-async-study", github_user: "prankmode", full_url: "https://github.com/prankmode/js-async-study"   },
+]
+Tag.destroy_all
+Tag.create! [
+{name: "api", tagType: "auto"},
+{name: "token", tagType: "auto"},
+{name: "auth", tagType: "auto"},
+{name: "code", tagType: "auto"},
+{name: "retreat", tagType: "auto"},
+{name: "css", tagType: "auto"},
+{name: "layout", tagType: "auto"},
+{name: "challenge", tagType: "auto"},
+{name: "full", tagType: "auto"},
+{name: "stack", tagType: "auto"},
+{name: "project", tagType: "auto"},
+{name: "practice", tagType: "auto"},
+{name: "game", tagType: "auto"},
+{name: "of", tagType: "auto"},
+{name: "gits", tagType: "auto"},
+{name: "git", tagType: "auto"},
+{name: "diagnostic", tagType: "auto"},
+{name: "github", tagType: "auto"},
+{name: "html", tagType: "auto"},
+{name: "bootstrap", tagType: "auto"},
+{name: "sass", tagType: "auto"},
+{name: "http", tagType: "auto"},
+{name: "study", tagType: "auto"},
+{name: "jquery", tagType: "auto"},
+{name: "ajax", tagType: "auto"},
+{name: "delete", tagType: "auto"},
+{name: "get", tagType: "auto"},
+{name: "collection", tagType: "auto"},
+{name: "element", tagType: "auto"},
+{name: "patch", tagType: "auto"},
+{name: "post", tagType: "auto"},
+{name: "dom", tagType: "auto"},
+{name: "js", tagType: "auto"},
+{name: "array", tagType: "auto"},
+{name: "iteration", tagType: "auto"},
+{name: "methods", tagType: "auto"},
+{name: "async", tagType: "auto"},
 ]
