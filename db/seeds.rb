@@ -1,3 +1,4 @@
+RepoTag.destroy_all
 Repo.destroy_all
 Repo.create! [
 {name: "api-token-auth", github_user: "prankmode", full_url: "https://github.com/prankmode/api-token-auth"   },
@@ -71,3 +72,15 @@ Tag.create! [
 {name: "methods", tagType: "auto"},
 {name: "async", tagType: "auto"},
 ]
+
+t_api = Tag.where("name = 'api'")
+r_api = Repo.where("name = 'game-project-api'")
+RepoTag.create({ repo_id: r_api[0].id, tag_id: t_api[0].id } )
+
+t_api = Tag.where("name = 'css'")
+r_api = Repo.where("name = 'html-css'")
+RepoTag.create({ repo_id: r_api[0].id, tag_id: t_api[0].id } )
+r_api = Repo.where("name = 'html-css-diagnostic'")
+RepoTag.create({ repo_id: r_api[0].id, tag_id: t_api[0].id } )
+r_api = Repo.where("name = 'html-css-layout'")
+RepoTag.create({ repo_id: r_api[0].id, tag_id: t_api[0].id } )

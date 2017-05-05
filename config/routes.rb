@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 Rails.application.routes.draw do
+  resources :repo_tags
   resources :tags
   resources :repos
   resources :examples, except: [:new, :edit]
