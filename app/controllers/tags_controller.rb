@@ -15,7 +15,8 @@ class TagsController < ProtectedController
 
   # POST /tags
   def create
-    @tag = Tag.new(tag_params)
+    binding.pry
+    @tag = current_user.tags.build(tag_params)
 
     if @tag.save
       render json: @tag, status: :created, location: @tag

@@ -3,4 +3,5 @@ class User < ApplicationRecord
   include Authentication
   has_many :examples
   has_many :repos
+  has_many :tags
 end
