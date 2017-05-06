@@ -1,36 +1,45 @@
+Example.destroy_all
 RepoTag.destroy_all
 Repo.destroy_all
+User.destroy_all
+
+
+u = User.create({email: "erica", password: "erica", password_confirmation: "erica"})
+u2 = User.create({email: "harry", password: "harry", password_confirmation: "harry"})
+
+
+
 Repo.create! [
-{name: "api-token-auth", github_user: "prankmode", full_url: "https://github.com/prankmode/api-token-auth"   },
-{name: "code-retreat", github_user: "prankmode", full_url: "https://github.com/prankmode/code-retreat"   },
-{name: "css-layout-challenge", github_user: "prankmode", full_url: "https://github.com/prankmode/css-layout-challenge"   },
-{name: "full-stack-project-practice", github_user: "prankmode", full_url: "https://github.com/prankmode/full-stack-project-practice"   },
-{name: "game-of-gits", github_user: "prankmode", full_url: "https://github.com/prankmode/game-of-gits"   },
-{name: "game-project-api", github_user: "prankmode", full_url: "https://github.com/prankmode/game-project-api"   },
-{name: "git", github_user: "prankmode", full_url: "https://github.com/prankmode/git"   },
-{name: "git-diagnostic", github_user: "prankmode", full_url: "https://github.com/prankmode/git-diagnostic"   },
-{name: "git-github", github_user: "prankmode", full_url: "https://github.com/prankmode/git-github"   },
-{name: "git-practice", github_user: "prankmode", full_url: "https://github.com/prankmode/git-practice"   },
-{name: "html-css", github_user: "prankmode", full_url: "https://github.com/prankmode/html-css"   },
-{name: "html-css-diagnostic", github_user: "prankmode", full_url: "https://github.com/prankmode/html-css-diagnostic"   },
-{name: "html-css-layout", github_user: "prankmode", full_url: "https://github.com/prankmode/html-css-layout"   },
-{name: "html-css-layout-bootstrap-sass", github_user: "prankmode", full_url: "https://github.com/prankmode/html-css-layout-bootstrap-sass"   },
-{name: "html-css-sass", github_user: "prankmode", full_url: "https://github.com/prankmode/html-css-sass"   },
-{name: "html-css-sass-diagnostic", github_user: "prankmode", full_url: "https://github.com/prankmode/html-css-sass-diagnostic"   },
-{name: "http-study", github_user: "prankmode", full_url: "https://github.com/prankmode/http-study"   },
-{name: "jquery-ajax-delete", github_user: "prankmode", full_url: "https://github.com/prankmode/jquery-ajax-delete"   },
-{name: "jquery-ajax-diagnostic", github_user: "prankmode", full_url: "https://github.com/prankmode/jquery-ajax-diagnostic"   },
-{name: "jquery-ajax-get-collection", github_user: "prankmode", full_url: "https://github.com/prankmode/jquery-ajax-get-collection"   },
-{name: "jquery-ajax-get-element", github_user: "prankmode", full_url: "https://github.com/prankmode/jquery-ajax-get-element"   },
-{name: "jquery-ajax-patch", github_user: "prankmode", full_url: "https://github.com/prankmode/jquery-ajax-patch"   },
-{name: "jquery-ajax-post", github_user: "prankmode", full_url: "https://github.com/prankmode/jquery-ajax-post"   },
-{name: "jquery-dom", github_user: "prankmode", full_url: "https://github.com/prankmode/jquery-dom"   },
-{name: "jquery-dom-diagnostic", github_user: "prankmode", full_url: "https://github.com/prankmode/jquery-dom-diagnostic"   },
-{name: "jquery-dom-study", github_user: "prankmode", full_url: "https://github.com/prankmode/jquery-dom-study"   },
-{name: "js", github_user: "prankmode", full_url: "https://github.com/prankmode/js"   },
-{name: "js-array-iteration-methods", github_user: "prankmode", full_url: "https://github.com/prankmode/js-array-iteration-methods"   },
-{name: "js-array-iteration-methods-diagnostic", github_user: "prankmode", full_url: "https://github.com/prankmode/js-array-iteration-methods-diagnostic"   },
-{name: "js-async-study", github_user: "prankmode", full_url: "https://github.com/prankmode/js-async-study"   },
+{name: "api-token-auth", github_user: "prankmode", full_url: "https://github.com/prankmode/api-token-auth", user_id: u.id  },
+{name: "code-retreat", github_user: "prankmode", full_url: "https://github.com/prankmode/code-retreat" , user_id: u.id   },
+{name: "css-layout-challenge", github_user: "prankmode", full_url: "https://github.com/prankmode/css-layout-challenge" , user_id: u.id   },
+{name: "full-stack-project-practice", github_user: "prankmode", full_url: "https://github.com/prankmode/full-stack-project-practice" , user_id: u.id   },
+{name: "game-of-gits", github_user: "prankmode", full_url: "https://github.com/prankmode/game-of-gits", user_id: u.id    },
+{name: "game-project-api", github_user: "prankmode", full_url: "https://github.com/prankmode/game-project-api" , user_id: u.id   },
+{name: "git", github_user: "prankmode", full_url: "https://github.com/prankmode/git", user_id: u.id   },
+{name: "git-diagnostic", github_user: "prankmode", full_url: "https://github.com/prankmode/git-diagnostic", user_id: u.id    },
+{name: "git-github", github_user: "prankmode", full_url: "https://github.com/prankmode/git-github", user_id: u.id    },
+{name: "git-practice", github_user: "prankmode", full_url: "https://github.com/prankmode/git-practice" , user_id: u.id   },
+{name: "html-css", github_user: "prankmode", full_url: "https://github.com/prankmode/html-css" , user_id: u.id   },
+{name: "html-css-diagnostic", github_user: "prankmode", full_url: "https://github.com/prankmode/html-css-diagnostic", user_id: u.id    },
+{name: "html-css-layout", github_user: "prankmode", full_url: "https://github.com/prankmode/html-css-layout", user_id: u.id    },
+{name: "html-css-layout-bootstrap-sass", github_user: "prankmode", full_url: "https://github.com/prankmode/html-css-layout-bootstrap-sass", user_id: u.id    },
+{name: "html-css-sass", github_user: "prankmode", full_url: "https://github.com/prankmode/html-css-sass" , user_id: u.id   },
+{name: "html-css-sass-diagnostic", github_user: "prankmode", full_url: "https://github.com/prankmode/html-css-sass-diagnostic", user_id: u.id    },
+{name: "http-study", github_user: "prankmode", full_url: "https://github.com/prankmode/http-study" , user_id: u.id   },
+{name: "jquery-ajax-delete", github_user: "prankmode", full_url: "https://github.com/prankmode/jquery-ajax-delete" , user_id: u.id   },
+{name: "jquery-ajax-diagnostic", github_user: "prankmode", full_url: "https://github.com/prankmode/jquery-ajax-diagnostic" , user_id: u.id   },
+{name: "jquery-ajax-get-collection", github_user: "prankmode", full_url: "https://github.com/prankmode/jquery-ajax-get-collection", user_id: u.id    },
+{name: "jquery-ajax-get-element", github_user: "prankmode", full_url: "https://github.com/prankmode/jquery-ajax-get-element", user_id: u.id    },
+{name: "jquery-ajax-patch", github_user: "prankmode", full_url: "https://github.com/prankmode/jquery-ajax-patch" , user_id: u.id   },
+{name: "jquery-ajax-post", github_user: "prankmode", full_url: "https://github.com/prankmode/jquery-ajax-post" , user_id: u.id   },
+{name: "jquery-dom", github_user: "prankmode", full_url: "https://github.com/prankmode/jquery-dom" , user_id: u.id   },
+{name: "jquery-dom-diagnostic", github_user: "prankmode", full_url: "https://github.com/prankmode/jquery-dom-diagnostic", user_id: u.id    },
+{name: "jquery-dom-study", github_user: "prankmode", full_url: "https://github.com/prankmode/jquery-dom-study" , user_id: u.id   },
+{name: "js", github_user: "prankmode", full_url: "https://github.com/prankmode/js", user_id: u.id    },
+{name: "js-array-iteration-methods", github_user: "prankmode", full_url: "https://github.com/prankmode/js-array-iteration-methods" , user_id: u.id   },
+{name: "js-array-iteration-methods-diagnostic", github_user: "prankmode", full_url: "https://github.com/prankmode/js-array-iteration-methods-diagnostic" , user_id: u.id   },
+{name: "js-async-study", github_user: "prankmode", full_url: "https://github.com/prankmode/js-async-study" , user_id: u.id   },
 ]
 Tag.destroy_all
 Tag.create! [
