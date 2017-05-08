@@ -59,7 +59,17 @@ class ReposController < ProtectedController
 
   # PATCH/PUT /repos/1
   def update
-    if @repo.update(repo_params)
+    tag_name = tag_params[:name]
+    # does the tag already exist?
+    t = Tag.find_by name: tag_name
+    binding.pry
+    if !t
+      t = current_user.tags.create({name: tag_name})
+      t.save
+    end
+    # create the relationship now that we have 2 ids
+    rt = RepoTag.create({repo_id: @repo.id, tag_id: e.id})
+    if rt.save
       render json: @repo
     else
       render json: @repo.errors, status: :unprocessable_entity
@@ -79,6 +89,9 @@ class ReposController < ProtectedController
 
     # Only allow a trusted parameter "white list" through.
     def repo_params
-      params.require(:repo).permit(:name, :github_user, :full_url, :toc)
+      params.require(:repo).permit(:name, :github_user, :full_url, :toc, :tags)
+    end
+    def tag_params
+      params.require(:tag).permit(:name, :id)
     end
 end
