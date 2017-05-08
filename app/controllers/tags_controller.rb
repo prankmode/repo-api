@@ -15,7 +15,6 @@ class TagsController < ProtectedController
 
   # POST /tags
   def create
-    binding.pry
     @tag = current_user.tags.build(tag_params)
 
     if @tag.save
