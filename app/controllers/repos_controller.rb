@@ -3,7 +3,7 @@ class ReposController < ProtectedController
 
   # GET /repos
   def index
-    @repos = Repo.all
+    @repos = current_user.repos
 
     render json: @repos
   end
@@ -21,6 +21,39 @@ class ReposController < ProtectedController
       render json: @repo, status: :created
     else
       render json: @repo.errors, status: :unprocessable_entity
+    end
+  end
+
+  # POST /repos/populate
+  def populate
+    file = File.read(Rails.root.join('scripts/ga-wdi-boston-repos.json'))
+    repos = JSON.parse(file)
+
+    repos.each do |r|
+      begin
+        r_params = { name: r['name'],
+                     github_user: r['owner']['login'],
+                     full_url: r['html_url'] }
+        repo = current_user.repos.build(r_params)
+        repo.save
+      rescue ActiveRecord::RecordNotUnique => e
+        next if e.message =~ /unique.*constraint.*index_repos_on_name/
+        raise
+      end
+
+      tokens = r['name'].split('-')
+      tokens.each do |t|
+        # create the tags
+        begin
+          t_params = { name: t,
+                       tagType: 'user' }
+          ttag = current_user.tags.build(t_params)
+          ttag.save
+        rescue ActiveRecord::RecordNotUnique => e
+          next if e.message =~ /unique.*constraint.*index_tags_on_name/
+          raise
+        end
+      end
     end
   end
 
