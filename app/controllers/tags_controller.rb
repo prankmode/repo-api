@@ -3,7 +3,7 @@ class TagsController < ProtectedController
 
   # GET /tags
   def index
-    @tags = Tag.all
+    @tags = current_user.tags
 
     render json: @tags
   end
