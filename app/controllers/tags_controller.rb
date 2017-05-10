@@ -24,14 +24,6 @@ class TagsController < ProtectedController
     end
   end
 
-  # PATCH/PUT /tags/1
-  def update
-    if @tag.update(tag_params)
-      render json: @tag
-    else
-      render json: @tag.errors, status: :unprocessable_entity
-    end
-  end
 
   # DELETE /tags/1
   def destroy

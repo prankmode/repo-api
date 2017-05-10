@@ -66,6 +66,7 @@ class ReposController < ProtectedController
 
   # PATCH/PUT /repos/1
   def update
+    # tag is processed separately
     t_id = process_tag(update_tag_params[:tag])
     if t_id
       # create the relationship now that we have 2 ids
@@ -74,8 +75,10 @@ class ReposController < ProtectedController
         render json: @repo.errors, status: :unprocessable_entity
       end
     end
-
-    if @repo.update(update_params)
+    # maybe we have a url and/or a description.  do not update
+    # them to blank!
+    u_params = update_params.reject {|k,v| v === "" }
+    if @repo.update(u_params)
       render json: @repo
     else
       render json: @repo.errors, status: :unprocessable_entity

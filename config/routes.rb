@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 Rails.application.routes.draw do
   resources :repo_tags, except: [:new, :edit]
-  resources :tags, except: [:new, :edit]
+  resources :tags, except: [:new, :edit, :update]
   resources :repos, except: [:new, :edit]
 
   post 'repos/populate'         => 'repos#populate'
