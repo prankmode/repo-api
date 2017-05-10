@@ -28,28 +28,35 @@ class ReposController < ProtectedController
   def populate
     # response = File.read(Rails.root.join('scripts/ga-wdi-boston-repos.json'))
     require 'open-uri'
-    binding.pry
-    gh_url = 'https://api.github.com/users/' + populate_params[:name] + '/repos?per_page=100'
-    response = open(gh_url).read
-    repos = JSON.parse(response)
+    begin
+      gh_url = 'https://api.github.com/users/' + populate_params[:name] + '/repos?per_page=100'
+      response = open(gh_url).read
+      repos = JSON.parse(response)
+    rescue OpenURI::HTTPError => error
+      # response = error.io
+      render json: { error: { message: 'GitHub account not found' } }, status: :not_found
+      return
+    end
 
     # go through the repos and create each one.
-    repos.each do |r|
-      r_params = { name: r['name'],
-                   github_user: r['owner']['login'],
-                   full_url: r['html_url'] }
-      repo = current_user.repos.build(r_params)
-      repo.save
+    if repos
+      repos.each do |r|
+        r_params = { name: r['name'],
+                     github_user: r['owner']['login'],
+                     full_url: r['html_url'] }
+        repo = current_user.repos.build(r_params)
+        repo.save
 
-      # then take the repo name, split it apart at the - and make
-      # each of those words a tag.
-      tokens = r['name'].split('-')
-      tokens.each do |t|
-        tid = process_tag(t)
-        if tid
-          rt = RepoTag.create(repo_id: repo.id, tag_id: tid)
-          if !rt.save
-            render json: @repo.errors, status: :unprocessable_entity
+        # then take the repo name, split it apart at the - and make
+        # each of those words a tag.
+        tokens = r['name'].split('-')
+        tokens.each do |t|
+          tid = process_tag(t)
+          if tid
+            rt = RepoTag.create(repo_id: repo.id, tag_id: tid)
+            if !rt.save
+              render json: @repo.errors, status: :unprocessable_entity
+            end
           end
         end
       end
@@ -58,7 +65,7 @@ class ReposController < ProtectedController
 
   # PATCH/PUT /repos/1
   def update
-    t_id = process_tag(update_params[:tag])
+    t_id = process_tag(update_tag_params[:tag])
     if t_id
       # create the relationship now that we have 2 ids
       rt = RepoTag.create(repo_id: @repo.id, tag_id: t_id)
@@ -107,7 +114,10 @@ class ReposController < ProtectedController
       params.require(:repo).permit(:name, :github_user, :full_url, :toc, :tags)
     end
     def update_params
-      params.require(:updateRepo).permit(:id, :description, :url)
+      params.require(:updateRepo).permit(:id, :description, :full_url)
+    end
+    def update_tag_params
+      params.require(:updateRepo).permit(:tag)
     end
     def populate_params
       params.require(:guser).permit(:name)
