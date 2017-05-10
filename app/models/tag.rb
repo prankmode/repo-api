@@ -3,4 +3,5 @@ class Tag < ApplicationRecord
   has_many :repos, through: :repo_tags
   belongs_to :user
   validates :name, :user, presence: true
+  validates :name, uniqueness: { scope: :user }
 end

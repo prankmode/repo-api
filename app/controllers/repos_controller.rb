@@ -43,7 +43,8 @@ class ReposController < ProtectedController
       repos.each do |r|
         r_params = { name: r['name'],
                      github_user: r['owner']['login'],
-                     full_url: r['html_url'] }
+                     full_url: r['html_url'],
+                     description: r['description'] }
         repo = current_user.repos.build(r_params)
         repo.save
 
@@ -111,7 +112,7 @@ class ReposController < ProtectedController
 
     # Only allow a trusted parameter "white list" through.
     def repo_params
-      params.require(:repo).permit(:name, :github_user, :full_url, :toc, :tags)
+      params.require(:repo).permit(:name, :github_user, :full_url, :description, :tags)
     end
     def update_params
       params.require(:updateRepo).permit(:id, :description, :full_url)
