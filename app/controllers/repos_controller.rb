@@ -26,32 +26,31 @@ class ReposController < ProtectedController
 
   # POST /repos/populate
   def populate
-    file = File.read(Rails.root.join('scripts/ga-wdi-boston-repos.json'))
-    repos = JSON.parse(file)
+    # response = File.read(Rails.root.join('scripts/ga-wdi-boston-repos.json'))
+    require 'open-uri'
+    binding.pry
+    gh_url = 'https://api.github.com/users/' + populate_params[:name] + '/repos?per_page=100'
+    response = open(gh_url).read
+    repos = JSON.parse(response)
 
+    # go through the repos and create each one.
     repos.each do |r|
-      begin
-        r_params = { name: r['name'],
-                     github_user: r['owner']['login'],
-                     full_url: r['html_url'] }
-        repo = current_user.repos.build(r_params)
-        repo.save
-      rescue ActiveRecord::RecordNotUnique => e
-        next if e.message =~ /unique.*constraint.*index_repos_on_name/
-        raise
-      end
+      r_params = { name: r['name'],
+                   github_user: r['owner']['login'],
+                   full_url: r['html_url'] }
+      repo = current_user.repos.build(r_params)
+      repo.save
 
+      # then take the repo name, split it apart at the - and make
+      # each of those words a tag.
       tokens = r['name'].split('-')
       tokens.each do |t|
-        # create the tags
-        begin
-          t_params = { name: t,
-                       tagType: 'user' }
-          ttag = current_user.tags.build(t_params)
-          ttag.save
-        rescue ActiveRecord::RecordNotUnique => e
-          next if e.message =~ /unique.*constraint.*index_tags_on_name/
-          raise
+        tid = process_tag(t)
+        if tid
+          rt = RepoTag.create(repo_id: repo.id, tag_id: tid)
+          if !rt.save
+            render json: @repo.errors, status: :unprocessable_entity
+          end
         end
       end
     end
@@ -59,11 +58,10 @@ class ReposController < ProtectedController
 
   # PATCH/PUT /repos/1
   def update
-    binding.pry
-    t_id = process_tag
+    t_id = process_tag(update_params[:tag])
     if t_id
       # create the relationship now that we have 2 ids
-      rt = RepoTag.create({repo_id: @repo.id, tag_id: t_id})
+      rt = RepoTag.create(repo_id: @repo.id, tag_id: t_id)
       if !rt.save
         render json: @repo.errors, status: :unprocessable_entity
       end
@@ -87,19 +85,21 @@ class ReposController < ProtectedController
       @repo = Repo.find(params[:id])
     end
 
-    def process_tag
-      tag_name = update_params[:tag]
+    def process_tag(tag_name)
       if tag_name
         # tag name specified - does the tag already exist?
-        t = Tag.find_by name: tag_name
+        t = current_user.tags.find_by name: tag_name
         if !t
           t = current_user.tags.create({name: tag_name})
           t.save
           t.id
         else
-          t
-        end
+          t.id
+         end
+      else
+        nil
       end
+
     end
 
     # Only allow a trusted parameter "white list" through.
@@ -108,5 +108,8 @@ class ReposController < ProtectedController
     end
     def update_params
       params.require(:updateRepo).permit(:id, :description, :url)
+    end
+    def populate_params
+      params.require(:guser).permit(:name)
     end
 end
